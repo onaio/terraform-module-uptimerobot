@@ -1,3 +1,14 @@
+terraform {
+  required_providers {
+    uptimerobot = {
+      source  = "louy/uptimerobot"
+      version = "0.5.1"
+    }
+  }
+}
+
+provider "uptimerobot" {}
+
 data "uptimerobot_alert_contact" "alert_contact" {
   for_each = toset(flatten(values(var.uptimerobot_monitors)[*].alert_contacts))
 
