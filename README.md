@@ -61,7 +61,10 @@ uptimerobot_monitors = {
     url           = "https://service_a.ona.io/health"
     interval      = 60
   }
-]
+}
+
+# variables.tf
+variable "uptimerobot_monitors" {}
 ```
 
 Ensure you've set `UPTIMEROBOT_API_KEY` in your environment before running any of the terraform commands that interact with the UptimeRobot API e.g. `terraform plan`, `terraform_apply`, `terraform destroy`.
