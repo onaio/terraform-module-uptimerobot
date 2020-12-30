@@ -6,8 +6,6 @@ This module sets up and configures monitoring of services on [UptimeRobot](https
 
 ```hcl
 # main.tf
-provider "uptimerobot" {}
-
 module "uptimerobot_monitor" {
   source = "../../../modules/uptime-robot"
 
