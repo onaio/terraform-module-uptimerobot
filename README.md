@@ -44,7 +44,7 @@ uptimerobot_monitors = {
 variable "uptimerobot_monitors" {}
 ```
 
-Ensure you've set `UPTIMEROBOT_API_KEY` in your environment before running any of the terraform commands that interact with the UptimeRobot API e.g. `terraform plan`, `terraform_apply`, `terraform destroy`.
+Ensure you've set `UPTIMEROBOT_API_KEY` in your environment before running any of the terraform commands that interact with the UptimeRobot API e.g. `terraform plan`, `terraform_apply`, `terraform destroy`. The API Key can be found in Ona's Bitwarden under the Engineering collection named `UptimeRobot API Key`.
 
 ```bash
 export UPTIMEROBOT_API_KEY=<your UptimeRobot Main API key here>
