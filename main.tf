@@ -7,8 +7,6 @@ terraform {
   }
 }
 
-provider "uptimerobot" {}
-
 data "uptimerobot_alert_contact" "alert_contact" {
   for_each = toset(flatten(values(var.uptimerobot_monitors)[*].alert_contacts))
 
