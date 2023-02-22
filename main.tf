@@ -36,7 +36,7 @@ resource "uptimerobot_monitor" "monitor" {
 }
 
 resource "uptimerobot_status_page" "status_page" {
-  for_each = var.uptimerobot_status_page_monitors
+  for_each      = var.uptimerobot_status_page_monitors
   friendly_name = each.value.friendly_name
   monitors = [
     for monitor in resource.uptimerobot_monitor.monitor :
