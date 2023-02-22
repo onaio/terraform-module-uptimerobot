@@ -34,3 +34,16 @@ resource "uptimerobot_monitor" "monitor" {
     }
   }
 }
+
+resource "uptimerobot_status_page" "status_page" {
+  for_each = var.uptimerobot_status_page_monitors
+  friendly_name = each.value.friendly_name
+  monitors = [
+    for monitor in resource.uptimerobot_monitor.monitor :
+    monitor.id if contains(each.value.monitors, monitor.friendly_name)
+  ]
+  custom_domain = each.value.custom_domain
+  password      = each.value.password
+  sort          = each.value.sort
+  status        = each.value.status
+}
