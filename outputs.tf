@@ -4,3 +4,9 @@ output "monitors_id" {
     monitor.id
   ])
 }
+output "uptimerobot_status_pages_names" {
+  value = tolist([
+    for page in uptimerobot_status_page.status_page :
+    page.friendly_name
+  ])
+}
