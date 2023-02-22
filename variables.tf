@@ -10,3 +10,14 @@ variable "uptimerobot_monitors" {
     interval       = number
   }))
 }
+variable "uptimerobot_status_page_monitors" {
+  description = "List of monitors status page to set up with their respective information"
+  type = map(object({
+    monitors       = list(string)
+    friendly_name  = string
+    custom_domain  = string
+    password       = string
+    sort           = string
+    status         = string
+  }))
+}
