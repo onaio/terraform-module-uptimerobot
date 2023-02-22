@@ -47,6 +47,7 @@ uptimerobot_status_page_monitors = {
     ],
     friendly_name = "Service A"
     custom_domain = "status.service_a.io"
+    zone_name     = "service_a.io"
     password      = null
     sort          = "down-up-paused"
     status        = "active"
