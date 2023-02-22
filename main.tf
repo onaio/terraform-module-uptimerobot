@@ -47,3 +47,20 @@ resource "uptimerobot_status_page" "status_page" {
   sort          = each.value.sort
   status        = each.value.status
 }
+
+resource "aws_route53_record" "record" {
+  for_each = var.uptimerobot_status_page_monitors
+  zone_id  = data.aws_route53_zone.zone[each.value.zone_name].zone_id
+  name     = each.value.custom_domain
+  type     = "CNAME"
+  ttl      = "300"
+  records = [
+    for status_page in uptimerobot_status_page.status_page :
+    status_page.dns_address if status_page.custom_domain == each.value.custom_domain
+  ]
+}
+
+data "aws_route53_zone" "zone" {
+  for_each = toset(values(var.uptimerobot_status_page_monitors)[*].zone_name)
+  name     = each.value
+}
