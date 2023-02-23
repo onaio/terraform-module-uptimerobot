@@ -40,8 +40,23 @@ uptimerobot_monitors = {
   }
 }
 
+uptimerobot_status_page_monitors = {
+  akuko_uptimerobot_status_page = {
+    monitors = [
+      "Service A",
+    ],
+    friendly_name = "Service A"
+    custom_domain = "status.service_a.io"
+    zone_name     = "service_a.io"
+    password      = null
+    sort          = "down-up-paused"
+    status        = "active"
+  },
+}
+
 # variables.tf
 variable "uptimerobot_monitors" {}
+variable "uptimerobot_status_page_monitors" {}
 ```
 
 Ensure you've set `UPTIMEROBOT_API_KEY` in your environment before running any of the terraform commands that interact with the UptimeRobot API e.g. `terraform plan`, `terraform_apply`, `terraform destroy`. The API Key can be found in Ona's Bitwarden under the Engineering collection named `UptimeRobot API Key`.
