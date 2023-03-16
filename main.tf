@@ -7,10 +7,17 @@ terraform {
   }
 }
 
-data "uptimerobot_alert_contact" "alert_contact" {
-  for_each = toset(flatten(values(var.uptimerobot_monitors)[*].alert_contacts))
+locals {
+  monitors = flatten(
+    [for monitor in var.uptimerobot_monitors :
+      monitor.alert_contacts == null ? [] : monitor.alert_contacts
+    ]
+  )
+}
 
-  friendly_name = each.value
+data "uptimerobot_alert_contact" "alert_contact" {
+  count         = length(local.monitors)
+  friendly_name = local.monitors[count.index]
 }
 
 resource "uptimerobot_monitor" "monitor" {
@@ -27,10 +34,13 @@ resource "uptimerobot_monitor" "monitor" {
   http_auth_type = lookup(each.value, "http_auth_type", null)
 
   dynamic "alert_contact" {
-    for_each = toset(each.value.alert_contacts)
+    for_each = flatten([
+      [each.value.alert_contacts == null ? [] : each.value.alert_contacts],
+      [each.value.alert_contact_ids == null ? [] : each.value.alert_contact_ids],
+    ])
 
     content {
-      id = data.uptimerobot_alert_contact.alert_contact[alert_contact.value].id
+      id = try(data.uptimerobot_alert_contact.alert_contact[alert_contact.key].id, alert_contact.value)
     }
   }
 }
