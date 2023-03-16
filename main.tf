@@ -34,13 +34,16 @@ resource "uptimerobot_monitor" "monitor" {
   http_auth_type = lookup(each.value, "http_auth_type", null)
 
   dynamic "alert_contact" {
-    for_each = flatten([
-      [each.value.alert_contacts == null ? [] : each.value.alert_contacts],
-      [each.value.alert_contact_ids == null ? [] : each.value.alert_contact_ids],
-    ])
-
+    for_each = each.value.alert_contacts == null ? [] : each.value.alert_contacts
     content {
-      id = try(data.uptimerobot_alert_contact.alert_contact[alert_contact.key].id, alert_contact.value)
+      id = data.uptimerobot_alert_contact.alert_contact[alert_contact.key].id
+    }
+  }
+
+  dynamic "alert_contact" {
+    for_each = each.value.alert_contact_ids == null ? [] : each.value.alert_contact_ids
+    content {
+      id = alert_contact.value
     }
   }
 }
