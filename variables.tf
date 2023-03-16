@@ -8,6 +8,9 @@ variable "uptimerobot_monitors" {
     keyword_value  = string
     url            = string
     interval       = number
+    http_username  = optional(string)
+    http_password  = optional(string)
+    http_auth_type = optional(string)
   }))
 }
 variable "uptimerobot_status_page_monitors" {
