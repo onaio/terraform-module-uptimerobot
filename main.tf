@@ -9,9 +9,7 @@ terraform {
 
 locals {
   monitors = flatten(
-    [for monitor in var.uptimerobot_monitors :
-      monitor.alert_contacts == null ? [] : monitor.alert_contacts
-    ]
+    [for monitor in var.uptimerobot_monitors : coalesce(monitor.alert_contacts, [])]
   )
 }
 
@@ -34,16 +32,20 @@ resource "uptimerobot_monitor" "monitor" {
   http_auth_type = lookup(each.value, "http_auth_type", null)
 
   dynamic "alert_contact" {
-    for_each = each.value.alert_contacts == null ? [] : each.value.alert_contacts
+    for_each = coalesce(each.value.alert_contacts, [])
+    iterator = contact
+
     content {
-      id = data.uptimerobot_alert_contact.alert_contact[alert_contact.key].id
+      id = data.uptimerobot_alert_contact.alert_contact[contact.key].id
     }
   }
 
   dynamic "alert_contact" {
-    for_each = each.value.alert_contact_ids == null ? [] : each.value.alert_contact_ids
+    for_each = coalesce(each.value.alert_contact_ids, [])
+    iterator = contact
+
     content {
-      id = alert_contact.value
+      id = contact.value
     }
   }
 }
